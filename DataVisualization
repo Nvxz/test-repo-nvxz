@@ -1,0 +1,30 @@
+# Continuo-->Categorico
+# mtcars:dataframe
+# mpg:contiene valores numericos
+ggplot(mtcars, aes(x = wt, y = mpg)) +  geom_point()
+ggplot(mtcars, aes(x = wt, y = factor(mpg))) +  geom_point()
+
+# Color: color=, genera una leyenda del color
+ggplot(mtcars, aes(x = wt, y = mpg, color = disp)) +
+  geom_point()
+
+# Tamaño: size=, genera una leyenda del tamaño
+ggplot(mtcars, aes(x = wt, y = mpg, size = disp)) +
+  geom_point()
+  
+# Representa valores como puntos y añade linea de tendencia
+(diamonds, aes(x = carat, y = price))+geom_point()+geom_smooth()
+
+# Asignar objetos ggplot reutilizables
+dia_plot <- ggplot(diamonds, aes(x = carat, y = price))
+
+# Quitar bordes de error en linea de tendencia
+dia_plot + geom_smooth(se = FALSE)
+
+# Linetype: arg en aes() para setear el tipo de linea
+
+# Agregar una linea de tendencia por grupo y a nivel dataset
+  gplot(mtcars, aes(x = wt, y = mpg, col = cyl)) +
+  geom_point()+ 
+  geom_smooth(method=lm,se=FALSE)+   
+  geom_smooth(aes(group=1),method=lm,se=FALSE,linetype=2)
