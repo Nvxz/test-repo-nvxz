@@ -28,3 +28,33 @@ dia_plot + geom_smooth(se = FALSE)
   geom_point()+ 
   geom_smooth(method=lm,se=FALSE)+   
   geom_smooth(aes(group=1),method=lm,se=FALSE,linetype=2)
+
+# Uso de dataframes mas "normalizados"
+  ggplot(iris.tidy, aes(x = Species, y = Value, color = Part)) +
+  geom_jitter() +
+  facet_grid(. ~ Measure)
+  
+# Uso del gather() y separate() transformar data->tidy
+iris.tidy <- iris %>%
+  gather(key, Value, -Species) %>%          #Desdobla cada columna
+  separate(key, c("Part", "Measure"), "\\.") #Separa el campo generado por el gather dado un patron
+# Generando iris.wide
+iris.wide <- iris %>%
+  gather(key, value, -Species, -Flower) %>%
+  separate(key, c("Part","Measure"), "\\.") %>%
+  spread(Measure, value)
+  
+# Aesthetic parameters
+# geom_point(default): shape=19 (a solid circle with an outline the same colour as the inside)
+# shape=1 (hollow)
+# shape=16 (solid no outline)
+# shape=21 (use both fill for the inside and col for the outline)
+
+# Map cyl to alpha
+ggplot(mtcars,aes(x=wt,y=mpg,alpha=cyl))+geom_point()
+
+# Map cyl to shape 
+ggplot(mtcars,aes(x=wt,y=mpg,shape=cyl))+geom_point()
+
+# Map cyl to label
+ggplot(mtcars,aes(x=wt,y=mpg,label=cyl))+geom_text() # para mostrar las etiquetas, se requiere el geom_text
