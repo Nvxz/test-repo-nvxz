@@ -58,3 +58,19 @@ ggplot(mtcars,aes(x=wt,y=mpg,shape=cyl))+geom_point()
 
 # Map cyl to label
 ggplot(mtcars,aes(x=wt,y=mpg,label=cyl))+geom_text() # para mostrar las etiquetas, se requiere el geom_text
+
+############################################# ATRIBUTOS #########################################################3
+
+# Define a hexadecimal color
+my_color <- "#4ABEFF"
+# my_color sobreescribe el color dado en aes()
+ggplot(mtcars,aes(x=wt,y=mpg,color=cyl))+geom_point(color=my_color)
+
+# shape>20 distingue, fill en aes() ; shape en geom()
+# 3 - Plot 2, with fill instead of col aesthetic, plut shape and size attributes in geom layer.
+ggplot(mtcars,aes(x=wt,y=mpg,fill=cyl))+geom_point(size=10,shape=23,color=my_color)
+
+
+# Expand to draw text with label rownames(mtcars) and color red
+ggplot(mtcars, aes(x = wt, y = mpg, fill = cyl,color=red)) + geom_text(label=rownames(mtcars),color="red")
+
