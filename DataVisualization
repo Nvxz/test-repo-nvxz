@@ -74,3 +74,6 @@ ggplot(mtcars,aes(x=wt,y=mpg,fill=cyl))+geom_point(size=10,shape=23,color=my_col
 # Expand to draw text with label rownames(mtcars) and color red
 ggplot(mtcars, aes(x = wt, y = mpg, fill = cyl,color=red)) + geom_text(label=rownames(mtcars),color="red")
 
+# Uso de factor() para categorizar variables, tmb se puede utilizar ratios: hp/wt
+ggplot(mtcars,aes(x=mpg,y=qsec,color=factor(cyl),shape=factor(am),size=(hp/wt))) + geom_point()
+
