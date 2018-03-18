@@ -77,3 +77,30 @@ ggplot(mtcars, aes(x = wt, y = mpg, fill = cyl,color=red)) + geom_text(label=row
 # Uso de factor() para categorizar variables, tmb se puede utilizar ratios: hp/wt
 ggplot(mtcars,aes(x=mpg,y=qsec,color=factor(cyl),shape=factor(am),size=(hp/wt))) + geom_point()
 
+# 18/03/2018
+############# Position #####
+# The base layer, cyl.am, is available for you
+cyl.am <- ggplot(mtcars, aes(x = factor(cyl), fill = factor(am)))
+# Add geom (position = "stack" by default)
+cyl.am + 
+  geom_bar(position="stack") # Apila x defecto
+  
+# Fill - muestra proporciones
+cyl.am + 
+  geom_bar(position = "fill")
+
+# Dodging - principles of similarity and proximity
+cyl.am +
+  geom_bar(position = "dodge") # Muestra x separado los valores(en barras separadas)
+  
+
+# Clean up the axes with scale_ functions
+val = c("#E41A1C", "#377EB8")
+lab = c("Manual", "Automatic")
+cyl.am +
+  geom_bar(position = "dodge") +
+  scale_x_discrete("Cylinders") + # Define el label del eje x
+  scale_y_continuous("Number") + # Define el label del eje y
+  scale_fill_manual("Transmission", # Define el nombre en la Leyenda
+                    values = val,  # Define el color de las categorias de la leyenda
+                    labels = lab)  # Define el nombre de las categorias de la leyenda
