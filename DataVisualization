@@ -77,11 +77,21 @@ ggplot(mtcars, aes(x = wt, y = mpg, fill = cyl,color=red)) + geom_text(label=row
 # Uso de factor() para categorizar variables, tmb se puede utilizar ratios: hp/wt
 ggplot(mtcars,aes(x=mpg,y=qsec,color=factor(cyl),shape=factor(am),size=(hp/wt))) + geom_point()
 
-# 18/03/2018
+################################################################################################################ 18/03/2018
 ############# Position #####
 # The base layer, cyl.am, is available for you
 cyl.am <- ggplot(mtcars, aes(x = factor(cyl), fill = factor(am)))
 # Add geom (position = "stack" by default)
+
+# 1 - Create jittered plot of mtcars, mpg onto x, 0 onto y
+ggplot(mtcars, aes(x = mpg, y = 0)) +
+  geom_jitter()
+
+# 2 - Add function to change y axis limits
+ggplot(mtcars, aes(x = mpg, y = 0)) +
+  geom_jitter()+
+  scale_y_continuous(limits=c(-2,2))
+
 cyl.am + 
   geom_bar(position="stack") # Apila x defecto
   
@@ -104,3 +114,14 @@ cyl.am +
   scale_fill_manual("Transmission", # Define el nombre en la Leyenda
                     values = val,  # Define el color de las categorias de la leyenda
                     labels = lab)  # Define el nombre de las categorias de la leyenda
+
+#Analisis univariado de observaciones
+# 1 - Create jittered plot of mtcars, mpg onto x, 0 onto y
+ggplot(mtcars, aes(x = mpg, y = 0)) +
+  geom_jitter()
+
+# 2 - Add function to change y axis limits
+ggplot(mtcars, aes(x = mpg, y = 0)) +
+  geom_jitter()+
+  scale_y_continuous(limits=c(-2,2))
+
