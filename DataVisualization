@@ -192,3 +192,50 @@ ggplot(Vocab,aes(x=education,y=vocabulary))+geom_jitter(alpha=0.2)
 ggplot(Vocab,aes(x=education,y=vocabulary))+geom_jitter(alpha=0.2,shape=1)
 # No altera muxho
 
+################################################### HISTOGRAMAS #################################
+# 1 - Make a univariate histogram
+ggplot(mtcars, aes(x = mpg)) + # SOLO SE DEFINE X
+  geom_histogram()             # ANCHO DE INTERVALO: RANGO/30   
+
+# 2 - Plot 1, plus set binwidth to 1 in the geom layer
+ggplot(mtcars, aes(x = mpg)) + #
+  geom_histogram(binwidth=1)   # ANCHO DE INTERVALO: 1, DEFINIDO
+
+# 3 - Plot 2, plus MAP ..density.. to the y aesthetic (i.e. in a second aes() function)
+ggplot(mtcars, aes(x = mpg)) +
+geom_histogram(aes(y=..density..),binwidth=1) #INDICA TOMAR LA DENSIDAD(h), SE MAPEA EN AES()
+
+
+# 4 - plot 3, plus SET the fill attribute to "#377EB8"
+ggplot(mtcars, aes(x = mpg)) +
+geom_histogram(aes(y=..density..),binwidth=1,fill="#377EB8") # FILL ES UN ATRIBUTO,SE DEFINE EN geom_histogram
+
+################# Argumentos de Posicion
+ggplot(mtcars, aes(x = cyl, fill = am)) + geom_bar(position="stack") # Default, APILA LAS BARRAS UNA ENCIMA DE OTRA
+
+# Change the position argument to fill
+ggplot(mtcars, aes(x = cyl, fill = am)) + geom_bar(position="fill") #  MUESTRA PROPORCIONES TOMANDO h
+
+# Change the position argument to dodge
+ggplot(mtcars, aes(x = cyl, fill = am)) + geom_bar(position="dodge") # SEPARA LAS BARRAS 
+
+################ Traslapando las barras usando dodge como una funcion
+# 2 - Define posn_d with position_dodge()
+posn_d <- position_dodge(width = 0.2)
+
+# 3 - Change the position argument to posn_d
+ggplot(mtcars, aes(x = cyl, fill = am)) + geom_bar(position = posn_d)
+
+# 4 - Use posn_d as position and adjust alpha to 0.6
+ggplot(mtcars, aes(x = cyl, fill = am)) + geom_bar(position = posn_d,alpha=0.6) # PERMITE OBSERVAR EL TRASLAPE DE LAS BARRAS
+
+################ Poligono de frecuencias
+# Change position to identity
+ggplot(mtcars, aes(mpg,fill=cyl)) +
+  geom_histogram(binwidth = 1,position="identity") # Histograma(cyl mapeado a fill)
+
+# Change geom to freqpoly (position is identity by default)
+ggplot(mtcars, aes(mpg,col=cyl)) +
+  geom_freqpoly(binwidth = 1,position="identity")  # Histograma(cyl mapeado a col)
+
+
