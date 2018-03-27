@@ -280,5 +280,19 @@ ggplot(mtcars, aes(mpg,fill=am)) +
 ggplot(mtcars, aes(mpg,fill=cyl)) +
   geom_histogram(binwidth = 1,position="identity",alpha=0.4)
 
+#################################################################################################
+##################################### SERIES DE TIEMPO #################################
+#################################################################################################
 
+# Plot unemploy as a function of date using a line plot
+ggplot(economics, aes(x = date, y = unemploy)) + geom_line()
 
+# Adjust plot to represent the fraction of total population that is unemployed
+ggplot(economics, aes(x = date, y = unemploy/pop)) + geom_line()
+
+# Expand the following command with geom_rect() to draw the recess periods
+ggplot(economics, aes(x = date, y = unemploy/pop)) +
+  geom_rect(data = recess, #DEFINIMOS LA DATA
+         aes(xmin = begin, xmax = end, ymin = -Inf, ymax = +Inf), #SETEAMOS DIMENSIONES DE LOS RECTANGULOS
+        inherit.aes = FALSE, fill = "red", alpha = 0.2) +         #DEFINIMOS NO HEREDAR AES, FILL Y ALPHA(ATRIBUTOS FUERA DE AES)
+  geom_line()
