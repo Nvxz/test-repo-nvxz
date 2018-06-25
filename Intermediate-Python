@@ -1,0 +1,79 @@
+###############################################  MATPLOTLIB
+#Importando paquete, subpaquete pyplot 
+import from matplotlib.pyplot as plt
+
+# Print the last item of gdp_cap and life_exp
+print(gdp_cap[-1])
+print(life_exp[-1])
+
+# Make a line plot, gdp_cap on the x-axis, life_exp on the y-axis
+plt.plot(gdp_cap,life_exp)
+
+# Change the line plot below to a scatter plot
+plt.scatter(gdp_cap, life_exp)
+
+# Put the x-axis on a logarithmic scale
+plt.xscale('log')
+
+# Show plot
+plt.show()
+
+# Create histogram of life_exp data
+print(life_exp)
+
+# Display histogram
+plt.hist(life_exp)
+plt.show()
+
+# Build histogram with 5 bins
+plt.hist(life_exp,5)
+
+# Show and clean up plot
+plt.show()
+plt.clf()
+
+#######Customizing
+# Basic scatter plot, log scale
+plt.scatter(gdp_cap, life_exp)
+plt.xscale('log') 
+
+# Strings
+xlab = 'GDP per Capita [in USD]'
+ylab = 'Life Expectancy [in years]'
+title = 'World Development in 2007'
+
+# Add axis labels
+plt.xlabel(xlab)
+plt.ylabel(ylab)
+
+# Add title
+plt.title(title)
+
+# After customizing, display the plot
+plt.show()
+
+# Definition of tick_val and tick_lab
+#Etiquetas para los ejes
+tick_val = [1000,10000,100000]
+tick_lab = ['1k','10k','100k']
+
+# Adapt the ticks on the x-axis
+plt.xticks(tick_val,tick_lab)
+
+# After customizing, display the plot
+plt.show()
+
+# Update: set s argument to np_pop
+# Setear el tamaño de las esferas
+plt.scatter(gdp_cap, life_exp, s = np_pop)
+
+# Specify c and alpha inside plt.scatter()
+plt.scatter(x = gdp_cap, y = life_exp, s = np.array(pop) * 2,c=col,alpha=0.8)
+
+# Additional customizations
+# Agrega textos en ubicaciones determinadas por coord. en el grafico
+plt.text(1550, 71, 'India')
+plt.text(5700, 80, 'China')
+
+# Add grid() call
+plt.grid(True)
