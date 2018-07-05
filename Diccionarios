@@ -62,5 +62,29 @@ cars.index=row_labels
 # Import the cars.csv as dataframe
 cars=pd.read_csv('cars.csv')
 
+# Import cars data
+import pandas as pd
+cars = pd.read_csv('cars.csv', index_col = 0)
 
+# Print out country column as Pandas Series
+cars['cars_per_cap']
+
+# Print out country column as Pandas DataFrame
+cars[['cars_per_cap']]
+
+# Print out DataFrame with country and drives_right columns
+cars[['country','drives_right']]
+
+########### Usando loc(rowlabels) y iloc(index)
+# Print out observation for Japan
+cars.loc[['JAP']]
+
+# Print out observations for Australia and Egypt
+cars.loc[['AUS','EG']]
+
+# Print out drives_right value of Morocco
+print(cars.loc['MOR','drives_right'])
+
+# Print sub-DataFrame
+print(cars.loc[['RU','MOR'],['country','drives_right']])
 
