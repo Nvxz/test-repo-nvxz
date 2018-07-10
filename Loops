@@ -1,0 +1,52 @@
+# house list of lists
+house = [["hallway", 11.25], 
+         ["kitchen", 18.0], 
+         ["living room", 20.0], 
+         ["bedroom", 10.75], 
+         ["bathroom", 9.50]]
+         
+# Build a for loop from scratch
+for x in house :
+    print("the "+x[0]+" is "+str(x[1])+" sqm")
+               <script.py> output:
+                 the hallway is 11.25 sqm
+                 the kitchen is 18.0 sqm
+                 the living room is 20.0 sqm
+                 the bedroom is 10.75 sqm
+                 the bathroom is 9.5 sqm
+                 
+                 
+# Loop en un diccionario
+europe = {'spain':'madrid', 'france':'paris', 'germany':'berlin',
+          'norway':'oslo', 'italy':'rome', 'poland':'warsaw', 'austria':'vienna' }
+          
+# Iterate over europe
+for  key, value in europe.items():
+    print("the capital of "+key+" is "+value)
+    
+# Loop en numpy arrays
+import numpy as np
+
+# For loop over np_height
+for x in np_height:
+    print(str(x)+" inches")
+
+# For loop over np_baseball
+for x in np.nditer(np_baseball):
+    print(str(x))
+
+# Loops en Pandas DataFrame
+# Import cars data
+import pandas as pd
+cars = pd.read_csv('cars.csv', index_col = 0)
+
+# Adapt for loop
+for lab, row in cars.iterrows() :
+    print(lab+": "+str(row['cars_per_cap']))
+    
+# Usando apply para obtener nuevas columnas
+
+# Producto de un metodo
+cars["COUNTRY"]=cars["country"].apply(str.upper)
+# Producto de una funcion
+cars["COUNTRY"]=cars["country"].apply(len)
