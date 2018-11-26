@@ -1,0 +1,58 @@
+## Delay Functions
+
+# Define count_flights
+@delayed
+def count_flights(df):
+    return len(df)
+
+# Define count_delayed
+@delayed
+def count_delayed(df):
+    return (df['DEP_DELAY']>0).sum()
+
+# Define pct_delayed
+@delayed
+def pct_delayed(n_delayed,n_flights):
+    return 100 * sum(n_delayed) / sum(n_flights)
+
+################################################
+
+# Loop over the provided filenames list and call read_one: df
+for file in filenames:
+    df = read_one(file)
+
+    # Append to n_delayed and n_flights
+    n_delayed.append(count_delayed(df))
+    n_flights.append(count_flights(df))
+
+# Call pct_delayed with n_delayed and n_flights: result
+result = pct_delayed(n_delayed,n_flights)
+
+# Print the output of result.compute()
+print(result.compute())
+
+################################################
+
+##Timing Dask array computations
+# Call da.from_array():  energy_dask
+
+energy_dask = da.from_array(energy,chunks=len(energy)//4)
+
+# Print energy_dask.chunks
+print(energy_dask.chunks)
+
+# Print Dask array average and then NumPy array average
+print(energy_dask.mean().compute())
+print(energy.mean())
+
+# Import time
+import time
+
+# Call da.from_array() with arr: energy_dask4
+energy_dask4 = da.from_array(energy,chunks=len(energy)//4)
+
+# Print the time to compute standard deviation
+t_start = time.time();
+std_4 = energy_dask4.std().compute();
+t_end = time.time();
+print((t_end - t_start) * 1.0e3)
