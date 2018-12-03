@@ -56,3 +56,108 @@ t_start = time.time();
 std_4 = energy_dask4.std().compute();
 t_end = time.time();
 print((t_end - t_start) * 1.0e3)
+
+############################################################33
+## Reshape and Broadcasting rules in matrix
+
+# Reshape load_recent to three dimensions: load_recent_3d
+load_recent_3d = load_recent.reshape((3,365,96))
+
+# Reshape load_2001 to three dimensions: load_2001_3d
+load_2001_3d = load_2001.reshape((1,365,96))
+
+# Subtract the load in 2001 from the load in 2013 - 2015: diff_3d
+diff_3d = load_recent_3d - load_2001_3d
+
+# Print the difference each year on March 2 at noon
+print(diff_3d[:,61, 48])
+
+## Axis
+
+# Print maximum of load_recent_3d across 2nd & 3rd dimensions
+print(load_recent_3d.max(axis=(1,2)))
+
+# Compute sum along last dimension of load_recent_3d: daily_consumption
+daily_consumption = load_recent_3d.sum(axis=-1)
+
+# Print mean of 62nd row of daily_consumption
+print(daily_consumption[:,61].mean())
+
+################################################################
+## Reading hdf5 files
+# Import h5py and dask.array
+import h5py
+import dask.array as da
+
+# List comprehension to read each file: dsets
+dsets = [h5py.File(f)['/tmax'] for f in filenames]
+
+# List comprehension to make dask arrays: monthly
+monthly = [da.from_array(d, chunks=(1,444,922)) for d in dsets]
+
+# Compute the average over last two axes: avg
+avg = da.nanmean(diff,axis=(-1,-2))
+
+
+##################################################################
+# DASK DATAFRAMES
+
+# Read from 'WDI.csv': df
+df=dd.read_csv('WDI.csv')
+
+# Boolean series where 'Indicator Code' is 'EN.ATM.PM25.MC.ZS': toxins
+toxins = df['Indicator Code'] == 'EN.ATM.PM25.MC.ZS'
+# Boolean series where 'Region' is 'East Asia & Pacific': region
+region = df['Region'] == 'East Asia & Pacific'
+
+# Filter the DataFrame using toxins & region: filtered
+filtered=df[toxins&region]
+
+#### AGGREGATIONS
+
+# Grouby filtered by the 'Year' column: yearly
+yearly=filtered.groupby('Year')
+
+# Aggregate the mean of the groupby object: yearly_mean
+yearly_mean=yearly.mean()
+
+# Call .compute() to perform the computation: result
+result=yearly_mean.compute()
+
+# Plot the 'value' column with .plot.line()
+result['value'].plot.line()
+plt.ylabel('% pop exposed')
+plt.show()
+
+#### DEFINING A PIPELINE
+
+# Define a function with df as input: by_region
+def by_region(df):
+
+    # Create the toxins array
+    toxins = df['Indicator Code'] == 'EN.ATM.PM25.MC.ZS'
+
+    # Create the y2015 array
+    y2015 = df['Indicator Code'] == 2015
+
+    # Filter the DataFrame and group by the 'Region' column
+    regions = df[toxins&y2015].groupby('Region')
+    
+    # Return the mean of the 'value' column of regions
+    return regions['value'].mean()
+#Timing
+
+# Call time.time()
+t0 = time.time()
+
+# Read 'WDI.csv' into df
+df = dd.read_csv('WDI.csv')
+
+# Group df by region: result
+result = by_region(df)
+
+# Call time.time()
+t1 = time.time()
+
+# Print the execution time
+print((t1-t0)*1000)
